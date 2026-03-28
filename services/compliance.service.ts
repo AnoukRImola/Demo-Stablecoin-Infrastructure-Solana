@@ -1,0 +1,17 @@
+import api from "@/lib/api";
+import type { InitializeRegistryPayload, VerifyAddressPayload } from "@/types/escrow.types";
+
+export async function initializeRegistry(payload: InitializeRegistryPayload) {
+  const response = await api.post("/compliance/initialize-registry", payload);
+  return response.data;
+}
+
+export async function getVerification(address: string) {
+  const response = await api.get("/compliance/verification", { params: { address } });
+  return response.data;
+}
+
+export async function verifyAddress(payload: VerifyAddressPayload) {
+  const response = await api.post("/compliance/verify-address", payload);
+  return response.data;
+}

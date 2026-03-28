@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #016CE6;
+  --color-primary-light: #B0DAFA;
+  --color-primary-dark: #0155B8;
+  --color-bg: #F9FCFF;
+  --color-card: #FFFFFF;
+  --color-navy: #1B2559;
+  --color-navy-light: #4A5584;
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-navy antialiased;
+  }
+}
+
+/* Syntax highlighter overrides */
+pre > code {
+  font-family: var(--font-mono) !important;
+}
