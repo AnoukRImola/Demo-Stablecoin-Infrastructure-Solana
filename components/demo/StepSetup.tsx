@@ -5,7 +5,7 @@ import { useDemoStore } from "@/store/demo.store";
 import { signAndSerialize } from "@/lib/solana-wallet";
 import { setTrustline } from "@/services/helper.service";
 import { sendTransaction } from "@/services/helper.service";
-import { initializeRegistry, getVerification, verifyAddress } from "@/services/compliance.service";
+import { getVerification, verifyAddress } from "@/services/compliance.service";
 import { DEMO_KYC_DEFAULTS } from "@/constants/demo-defaults";
 import { NarrativeBlock } from "./NarrativeBlock";
 import { TransactionResult } from "./TransactionResult";
@@ -55,7 +55,7 @@ export function StepSetup() {
   };
 
   const handleVerifyKyc = async () => {
-    if (!publicKey || !signTransaction || !walletAddress) return;
+    if (!walletAddress) return;
     setLoading(true);
     setError(null);
     try {
@@ -71,38 +71,15 @@ export function StepSetup() {
         // 404 = not verified yet — continue with verification flow
       }
 
-      // Ensure compliance registry is initialized (only first time ever)
-      try {
-        const regRes = await initializeRegistry({
-          signer: walletAddress,
-          travelRuleThreshold: "1000000",
-        });
-        if (regRes.unsignedTransaction) {
-          const regSigned = await signAndSerialize(regRes.unsignedTransaction, signTransaction);
-          await sendTransaction({
-            signedXdr: regSigned,
-            queueKey: walletAddress,
-          });
-        }
-      } catch {
-        // Registry already initialized — safe to continue
-      }
-
-      // Verify address (KYC)
+      // Server handles registry init + signing internally
       const res = await verifyAddress({
-        signer: walletAddress,
         address: walletAddress,
         kycProvider: DEMO_KYC_DEFAULTS.kycProvider,
         jurisdiction: DEMO_KYC_DEFAULTS.jurisdiction,
         riskScore: DEMO_KYC_DEFAULTS.riskScore,
       });
 
-      const signed = await signAndSerialize(res.unsignedTransaction, signTransaction);
-      const result = await sendTransaction({
-        signedXdr: signed,
-        queueKey: walletAddress,
-      });
-      setKycTxSig(result.data?.txHash || result.txHash || "success");
+      setKycTxSig(res.txHash || "success");
       completeStep(2);
       setStep(3);
     } catch (err: unknown) {

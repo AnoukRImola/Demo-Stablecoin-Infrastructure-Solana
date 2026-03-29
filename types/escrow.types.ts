@@ -79,13 +79,7 @@ export interface SetTrustlinePayload {
   walletAddress: string;
 }
 
-export interface InitializeRegistryPayload {
-  signer: string;
-  travelRuleThreshold: string;
-}
-
 export interface VerifyAddressPayload {
-  signer: string;
   address: string;
   kycProvider: string;
   jurisdiction: string;
