@@ -8,6 +8,7 @@ import { StepCreateEscrow } from "./StepCreateEscrow";
 import { StepFundEscrow } from "./StepFundEscrow";
 import { StepCompleteMilestone } from "./StepCompleteMilestone";
 import { StepApproveRelease } from "./StepApproveRelease";
+import { AdminResetRegistry } from "./AdminResetRegistry";
 import { DEMO_STEPS } from "@/types/demo.types";
 
 export function DemoWizard() {
@@ -31,6 +32,8 @@ export function DemoWizard() {
         </h2>
         <p className="text-sm text-navy-light">{stepConfig?.description}</p>
       </div>
+
+      <AdminResetRegistry />
 
       <div className="mt-6">
         {currentStep === 1 && <StepConnectWallet />}
