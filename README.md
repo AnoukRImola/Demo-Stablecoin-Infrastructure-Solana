@@ -14,7 +14,6 @@ Interactive demo site and documentation for **Trustless Work**, an Escrow-as-a-S
 - **React 19** + TypeScript
 - **Tailwind CSS 4**
 - **Solana wallet-adapter** (Phantom, Solflare)
-- **Zustand** for state management
 - **@trustless-work/sdk-solana** for API integration
 
 ## Getting Started
